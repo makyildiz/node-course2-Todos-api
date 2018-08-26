@@ -6,14 +6,14 @@ const {MongoClient, ObjectID} = require('mongodb'); //same w/ the upper MongoCli
 // console.log(obj);
 
 //Connection url
-// var url = 'mongodb://localhost:27017';
+var url = 'mongodb://localhost:27017';
 
 //Object destructuring
 // var user = {name: 'Mesut', age: 46};
 // var {name} = user;
 // console.log(name);
 
-MongoClient.connect('mongodb://localhost:27017', (err, client) => {
+MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
   if(err){
     return console.log('Unable to connect to Mongodb Server');
   }

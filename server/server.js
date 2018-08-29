@@ -6,6 +6,7 @@ var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 
 var app = express();
+var {ObjectID} = require('mongodb');
 
 app.use(bodyParser.json());
 
@@ -29,6 +30,21 @@ app.get('/todos', (req, res) => {
     }, (e) => {
       res.status(400).send(e);
     })
+});
+
+app.get('/todos/:id', (req, res) => {
+    var id = req.params.id;
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send('no valid id');
+    }
+    Todo.findById(id).then((todo) => {
+      if (!todo) {
+        res.status(404).send('id not found');
+      }
+      res.send({todo}); //instead of responding with arrat make it an object
+    }).catch((e) => {
+      res.status(400).send('problem getting id');
+    });
 });
 
 
